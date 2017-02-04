@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router';
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  componentWillMount () {
+    this.props.router.push('/login');
+  }
+
   render() {
     return (
       <div className="App">
@@ -17,4 +22,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App, { withRef: true });
