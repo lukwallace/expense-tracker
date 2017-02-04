@@ -1,0 +1,12 @@
+.Signup, .Login {
+  text-align: center;
+}
+
+input {
+  display: block;
+  margin: 5px auto;
+}
+
+div {
+  font-size: small;
+}
