@@ -18,7 +18,12 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    //TODO: Import a requests file
     console.log('Make request with:', this.state.user, this.state.pass)
+    fetch('http://localhost:3001')
+    .then(res => res.json())
+    .then(res => console.log('Success!', res))
+    .catch(err => console.log('[Error]:', err));
   }
 
   render() {
