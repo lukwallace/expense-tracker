@@ -22,3 +22,34 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+h2 {
+  text-align: left;
+  font-weight: normal; 
+}
+
+span {
+  font-size: small;
+}
+
+.amount {
+  font-weight: bold;
+  font-size: large;
+}
+
+.amount, .description {
+  display: inline-block;
+  padding: 15px;
+}
+
+.expense {
+  width: 200px;
+}
+
+
+ul {
+  list-style-type: none;
+  width: 70%;
+  margin: auto;
+}
