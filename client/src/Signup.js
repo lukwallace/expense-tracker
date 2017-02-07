@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router';
+import { post } from './Requests';
+import { storeToken } from './utils';
 import './Onboarding.css';
 
 class Signup extends Component {
   state = {
-    user: '',
-    pass: ''
+    username: '',
+    password: ''
   }
 
   handleChange = (key) => {
@@ -19,7 +21,13 @@ class Signup extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const admin = document.activeElement.textContent === 'Spaces';
-    console.log('Make request with:', this.state.user, this.state.pass, admin)
+    post('/api/signup', Object.assign(this.state, { admin }))
+    .then((res) => {
+      if(res.token) {
+        storeToken(res.token);
+        this.props.router.push('/');
+      }
+    });
   }
 
   render() {
@@ -27,8 +35,8 @@ class Signup extends Component {
       <div className="Signup">
         <h1>Sign up</h1>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" onChange={this.handleChange('user')} value={this.state.username}/>
-          <input type="password" onChange={this.handleChange('pass')} value={this.state.password}/>
+          <input type="text" onChange={this.handleChange('username')} value={this.state.username}/>
+          <input type="password" onChange={this.handleChange('password')} value={this.state.password}/>
           <button>Tabs</button> or <button>Spaces</button>
         </form>
         <Link to="/login"><p>Log in</p></Link>
