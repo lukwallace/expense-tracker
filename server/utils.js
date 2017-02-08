@@ -1,5 +1,5 @@
+// Helper file for handling jwt tokens
 const jwt = require('jwt-simple');
-
 
 module.exports = {
   // Function that checks for the token.

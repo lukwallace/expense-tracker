@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt');
 const Promise = require('bluebird');
 const SALT_ROUNDS = 10;
 
+// Use bluebird (faster than ES6 promise)
+mongoose.Promise = Promise;
+
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: {
@@ -33,6 +36,7 @@ userSchema.methods.comparePasswords = function (candidatePassword) {
   });
 };
 
+// Salt and hash passwords before saving to database
 userSchema.pre('save', function(next) {
   const userDoc = this;
   bcrypt.hash(userDoc.password, SALT_ROUNDS, function(err, hash) {

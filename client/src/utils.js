@@ -1,3 +1,4 @@
+// Helper file for handling jwt token storage
 module.exports = {
   storeToken(token) {
     window.localStorage.setItem('expense-tracker', token);

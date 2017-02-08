@@ -3,19 +3,12 @@ import { withRouter } from 'react-router';
 import moment from 'moment';
 
 import { getToken, removeToken } from './utils';
-import { post, getExpenses } from './Requests';
+import { submitExpense, getExpenses } from './Requests';
 import ExpenseForm from './ExpenseForm';
 import ExpenseList from './ExpenseList';
 import logo from './logo.svg';
 import './App.css';
 
-const dummy = {
-  _id: 'ohiu123huhida',
-  owner: 'Johnny',
-  datetime: new Date(),
-  amount: 20.25,
-  description: 'An exquisitely expensive sandwich'
-}
 
 class App extends Component {
   state = {
@@ -28,6 +21,11 @@ class App extends Component {
   }
 
   componentWillMount () {
+    // Early return for unit testing components
+    // Avoids router actions auto failing tests
+    if(this.props.test) {
+      return;
+    }
     const token = getToken();
     if(token) {
       this.setState({ token });
@@ -38,8 +36,12 @@ class App extends Component {
 
   componentDidMount () {
     getExpenses(this.state.token)
-    .then((expenses) => {
-      this.setState({ expenses });
+    .then((data) => {
+      const { owner, expenses } = data;
+      this.setState({ owner, expenses });
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
 
@@ -50,15 +52,21 @@ class App extends Component {
 
   handleExpenseSubmit = (event) => {
     event.preventDefault();
-    // post('/api/expense')
+    submitExpense(this.state)
+    .then((newExpense) => {
+      this.setState({ expenses: [newExpense, ...this.state.expenses] });
+    });
   }
 
-  handleChange = (key) => {
-    return (eventMoment) => {
-      const newState = {};
-      newState[key] = key === 'datetime' ? eventMoment : eventMoment.target.value;
-      this.setState(newState);
-    };
+  handleDelete = () => {}
+  handleUpdate = () => {}
+  generateReport = () => {}
+
+  // State change slightly different for datetime picker
+  handleChange = (key) => (eventMoment) => {
+    const newState = {};
+    newState[key] = key === 'datetime' ? eventMoment : eventMoment.target.value;
+    this.setState(newState);
   }
 
   render() {
@@ -75,7 +83,12 @@ class App extends Component {
           handleExpenseSubmit={this.handleExpenseSubmit}
           handleChange={this.handleChange}
         />
-        <ExpenseList expenses={this.state.expenses} />
+        <ExpenseList 
+          expenses={this.state.expenses}
+          handleDelete={this.handleDelete}
+          handleUpdate={this.handleUpdate}
+          generateReport={this.generateReport}
+        />
         <button className="logOut" onClick={this.handleLogOut}>Log out</button>
       </div>
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import Datetime from 'react-datetime'
 
 const ExpenseForm = ({ handleChange, datetime, amount, description, handleExpenseSubmit }) => {

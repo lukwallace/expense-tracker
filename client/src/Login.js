@@ -10,12 +10,10 @@ class Login extends Component {
     password: ''
   }
 
-  handleChange = (key) => {
-    return (event) => {
-      const newState = {};
-      newState[key] = event.target.value;
-      this.setState(newState);
-    };
+  handleChange = (key) => (event) => {
+    const newState = {};
+    newState[key] = event.target.value;
+    this.setState(newState);
   }
 
   handleSubmit = (event) => {

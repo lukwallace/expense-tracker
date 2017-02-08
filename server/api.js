@@ -17,11 +17,11 @@ module.exports = (app) => {
   app.get('/api/expenses', checkAuth, expenseController.expenses);
 
   /* Creates an expense */
-  app.post('/api/expense', checkAuth, expenseController.create);
+  app.post('/api/expense', checkAuth, expenseController.createExpense);
 
   /* Deletes an expense via id */
-  app.post('/api/delete', checkAuth, expenseController.delete);
+  app.post('/api/delete', checkAuth, expenseController.deleteExpense);
 
   /* Updates and expense via id */
-  app.post('/api/update', checkAuth, expenseController.update);
+  app.post('/api/update', checkAuth, expenseController.updateExpense);
 };

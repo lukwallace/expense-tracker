@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt');
 const Promise = require('bluebird');
 const SALT_ROUNDS = 10;
 
+// Use bluebird (faster than ES6 promise)
+mongoose.Promise = Promise;
+
 const Schema = mongoose.Schema;
 const expenseSchema = new Schema({
   owner: {

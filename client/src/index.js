@@ -13,6 +13,7 @@ class Index extends Component {
         <Route path="/" component={App} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="*" component={App} />
       </Router>
     );
   }

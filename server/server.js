@@ -3,9 +3,6 @@ const mongoose = require('mongoose');
 const app = express();
 
 
-// Use bluebird (faster than ES6 promise)
-mongoose.Promise = Promise;
-
 // Connect to database
 mongoose.connect('mongodb://localhost/expense-tracker');
 mongoose.connection.on('open', () => {
