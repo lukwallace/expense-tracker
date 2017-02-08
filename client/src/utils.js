@@ -10,7 +10,7 @@ module.exports = {
     return window.localStorage.getItem('expense-tracker');
   },
 
-  logOut() {
+  removeToken() {
     window.localStorage.removeItem('expense-tracker');
   },
 };
