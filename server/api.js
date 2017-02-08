@@ -1,5 +1,6 @@
 const userController = require('./user/userController');
 const expenseController = require('./expense/expenseController');
+const { checkAuth } = require('./utils');
 
 module.exports = (app) => {
   /* UNRESTRICTED ROUTES */
@@ -13,5 +14,14 @@ module.exports = (app) => {
   /* RESTRICTED ROUTES */
 
   /* Gets expenses based on user role */
-  app.get('/api/expenses', expenseController.expenses);
+  app.get('/api/expenses', checkAuth, expenseController.expenses);
+
+  /* Creates an expense */
+  app.post('/api/expense', checkAuth, expenseController.create);
+
+  /* Deletes an expense via id */
+  app.post('/api/delete', checkAuth, expenseController.delete);
+
+  /* Updates and expense via id */
+  app.post('/api/update', checkAuth, expenseController.update);
 };
