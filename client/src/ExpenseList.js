@@ -4,9 +4,11 @@ import Expense from './Expense';
 const ExpenseList = ({ expenses }) => {
   return (
     <ul>
-      {expenses.map((expense)=> {
-        <li key={expense._id}> {expense.amount} </li>
-      })}
+      {expenses.map(expense => 
+        <li key={expense._id}>
+          <Expense expense={expense} />
+        </li>
+      )}
     </ul>
   );
 };

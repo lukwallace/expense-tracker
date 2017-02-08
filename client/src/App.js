@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
-import { getToken, logOut } from './utils';
+import moment from 'moment';
+
+import { getToken, removeToken } from './utils';
 import { post, getExpenses } from './Requests';
-import AddExpense from './AddExpense';
+import ExpenseForm from './ExpenseForm';
 import ExpenseList from './ExpenseList';
 import logo from './logo.svg';
 import './App.css';
@@ -18,8 +20,9 @@ const dummy = {
 class App extends Component {
   state = {
     token: '',
+    owner: '',
     expenses: [],
-    datetime: '',
+    datetime: moment(),
     amount: '',
     description: ''
   }
@@ -41,8 +44,21 @@ class App extends Component {
   }
 
   handleLogOut = () => {
-    logOut();
+    removeToken();
     this.props.router.push('/login');
+  }
+
+  handleExpenseSubmit = (event) => {
+    event.preventDefault();
+    // post('/api/expense')
+  }
+
+  handleChange = (key) => {
+    return (eventMoment) => {
+      const newState = {};
+      newState[key] = key === 'datetime' ? eventMoment : eventMoment.target.value;
+      this.setState(newState);
+    };
   }
 
   render() {
@@ -50,28 +66,16 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <h1> Expense Tracker </h1>
         </div>
-        <div>
-          <AddExpense datetime={this.state.datetime} amount={this.state.amount} description={this.state.description}/>
-          <ExpenseList expenses={this.state.expenses} />
-          <ul>
-            <li> 
-              <div className="expense">
-                <h2> Joe <span> Tuesday 2:30 PM </span> </h2>
-                <div className="amount"> 20.25 </div>
-                <span> Delicious stufff </span>
-              </div>
-            </li>
-            <li> 
-              <div className="expense">
-                <h2> Joe <span> Tuesday 2:30 PM </span> </h2>
-                <div className="amount"> 20.25 </div>
-                <div className="description"> Delicious stuff </div>
-              </div>
-            </li>
-          </ul>
-
-        </div>
+        <ExpenseForm 
+          datetime={this.state.datetime}
+          amount={this.state.amount}
+          description={this.state.description}
+          handleExpenseSubmit={this.handleExpenseSubmit}
+          handleChange={this.handleChange}
+        />
+        <ExpenseList expenses={this.state.expenses} />
         <button className="logOut" onClick={this.handleLogOut}>Log out</button>
       </div>
     );
