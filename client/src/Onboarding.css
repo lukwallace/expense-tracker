@@ -2,11 +2,7 @@
   text-align: center;
 }
 
-input {
+.Login input, .Signup input {
   display: block;
   margin: 5px auto;
-}
-
-div {
-  font-size: small;
 }
